@@ -1,0 +1,36 @@
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+   name: iotpy-deploy 
+spec:
+   strategy:
+      type: Recreate
+   selector:
+      matchLabels:
+         app: iotpy
+   replicas: 1
+   template:
+      metadata:
+         name: iotpy-pod
+         labels:
+             app: iotpy
+      spec:
+          containers:
+             - image: openscada/iotpy:v0.3.2
+               name: iotpy 
+               env:
+                 - name: "IOTPY_DEVICES_DIR"
+                   value: "example"
+                 - name: "IOTPY_DEVICES_PORT"
+                   value: "8085"
+               ports:
+               - containerPort: 8085
+                 protocol: TCP
+               livenessProbe:
+                 httpGet:
+                   path: /
+                   port: 8085
+                 failureThreshold: 2
+                 initialDelaySeconds: 60
+                 periodSeconds: 60
+                 timeoutSeconds: 1
