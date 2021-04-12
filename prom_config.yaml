@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+   name: prom-conf 
+data:
+   prometheus-config.yaml: |
+        global:
+          scrape_interval: 5s
+          scrape_timeout: 3s
+          evaluation_interval: 10s
+        scrape_configs:
+          - job_name: iot_control
+            scrape_interval: 5s
+            metrics_path:  /iotpy/metrics
+            scheme:  http
+            static_configs:
+            - targets: ['svc-iotpy']

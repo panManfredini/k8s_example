@@ -7,7 +7,7 @@ spec:
   - host: localhost 
     http:
       paths:
-      - path: /
+      - path: /iotpy
         backend:
           serviceName: svc-iotpy 
           servicePort: 80

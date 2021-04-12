@@ -23,12 +23,14 @@ spec:
                    value: "example"
                  - name: "IOTPY_DEVICES_PORT"
                    value: "8085"
+                 - name: "IOTPY_PROXY_PREFIX"
+                   value: "iotpy"
                ports:
                - containerPort: 8085
                  protocol: TCP
                livenessProbe:
                  httpGet:
-                   path: /
+                   path: /iotpy
                    port: 8085
                  failureThreshold: 2
                  initialDelaySeconds: 60

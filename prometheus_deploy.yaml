@@ -1,0 +1,35 @@
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+   name: prometheus-deploy 
+spec:
+   strategy:
+      type: Recreate
+   selector:
+      matchLabels:
+         app: prometheus
+   replicas: 1
+   template:
+      metadata:
+         name: prometheus-pod
+         labels:
+             app: prometheus
+      spec:
+          containers:
+             - image: prom/prometheus:v2.20.1 
+               name: prometheus 
+               args: ["--config.file=/etc/prometheus/prometheus_conf.yml","--web.external-url=http://localhost:9090/prometheus"]
+               volumeMounts:
+                 - name: config
+                   mountPath: /etc/prometheus/
+                   readOnly: true
+               ports:
+               - containerPort: 9090 
+                 protocol: TCP
+          volumes:
+            - name: config
+              configMap:
+                 name: prom-conf 
+                 items:
+                 - key:  prometheus-config.yaml 
+                   path: prometheus_conf.yml
