@@ -30,7 +30,7 @@ spec:
                  protocol: TCP
                livenessProbe:
                  httpGet:
-                   path: /iotpy
+                   path: /iotpy/
                    port: 8085
                  failureThreshold: 2
                  initialDelaySeconds: 60
